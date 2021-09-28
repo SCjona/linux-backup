@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+# source: https://gist.github.com/shvchk/2c184304dd88b8d53812afbd1a06256d
+
 user_list=($(who | grep -E "\(:[0-9](\.[0-9])*\)" | awk '{print $1 "@" $NF}' | sort -u))
 
 for user in $user_list; do
