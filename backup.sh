@@ -25,7 +25,7 @@ for source in *; do
     fi
 
     # collect files
-    tar --exclude-caches -cf "$source.tar" "$source"/*
+    tar --exclude-caches -cf "$source.tar" "$source/."
     # calculate / load hashes
     LOCAL_HASH="$(sha512sum -b "$source".tar | cut -d ' ' -f 1)"
     REMOTE_HASH="$(cat ../remote_hashes.txt | grep -P -- "^$source=[0-9a-fA-F]+$" | cut -d '=' -f 2)"
