@@ -23,6 +23,9 @@
 ### Custom notification system
 Edit `notify.sh` to your liking
 
+### Customize upload/download commands (as replacement for directory mounts)
+Edit `download.sh` and `upload.sh`. They are used like a `mv <source> <destination>` command, the remote file is always just a file name, the local file is a relative path.
+
 ### Custom keyfiles for certain backups
 Create a keyfile using this command: `uuidgen > keyfiles/backup-name.keyfile`
 

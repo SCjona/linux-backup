@@ -2,3 +2,5 @@
 /destination
 /keyfiles
 /remote_hashes.txt
+/download.sh
+/upload.sh

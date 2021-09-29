@@ -5,11 +5,7 @@ set -e
 cd "$(dirname "$0")"
 
 echo "Downloading remote hashes"
-if [ -f "destination/hashes.txt" ]; then
-    cp destination/hashes.txt remote_hashes.txt
-else
-    touch remote_hashes.txt
-fi
+./download.sh hashes.txt remote_hashes.txt || touch remote_hashes.txt
 
 cd sources
 # clean up old
@@ -35,7 +31,7 @@ for source in *; do
 
         # remove old hash
         echo "Removing old hash"
-        grep -Pv "^$source=[0-9a-fA-F]+$" ../remote_hashes.txt > ../remote_hashes_new.txt
+        grep -Pv "^$source=[0-9a-fA-F]+$" ../remote_hashes.txt > ../remote_hashes_new.txt || echo "Nothing to remove"
         mv ../remote_hashes_new.txt ../remote_hashes.txt
 
         # Compress
@@ -52,7 +48,7 @@ for source in *; do
         rm "$source.tar.xz"
 
         # Uploading new file
-        mv "$source.tar.xz.bin" "../destination/$source.tar.xz.bin"
+        ../upload.sh "$source.tar.xz.bin" "$source.tar.xz.bin"
 
         # add new hash
         echo "Adding new hash"
@@ -63,6 +59,6 @@ done
 cd ..
 
 echo "Uploading (updated) remote hashes"
-cp remote_hashes.txt destination/hashes.txt
+./upload.sh remote_hashes.txt hashes.txt
 
 echo "Done!"
