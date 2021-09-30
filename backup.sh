@@ -21,7 +21,13 @@ for source in *; do
     fi
 
     # collect files
+    set +e  # tar returns exit code 0 for success, 1 for warnings, 2 for fatal error
     tar --exclude-caches -cf "$source.tar" "$source/."
+    TAR_EXIT_CODE="$?"
+    if [ "$TAR_EXIT_CODE" != "0" ] && [ "$TAR_EXIT_CODE" != "1" ]; then
+        exit 1
+    fi
+    set -e
     # calculate / load hashes
     LOCAL_HASH="$(sha512sum -b "$source".tar | cut -d ' ' -f 1)"
     REMOTE_HASH="$(cat ../remote_hashes.txt | grep -P -- "^$source=[0-9a-fA-F]+$" | cut -d '=' -f 2)"
