@@ -32,3 +32,6 @@ Create a keyfile using this command: `uuidgen > keyfiles/backup-name.keyfile`
 ### Exclude files in backup directories
 This works using the `tar --exclude-cache` switch. To exclude a directory use the following command: `echo 'Signature: 8a477f597d28d172789f06886806bc55' > /directory/to/exclude/CACHEDIR.TAG`
 
+## Accessing Backup contents
+
+To access the contents of a backup file you need to decrypt them using `openssl aes-256-cbc -d -in backup-name.tar.xz.bin -out backup-name.tar.xz -kfile /path/to/keyfile -pbkdf2 -iter 1500000`. If no special keyfile has been created use the fallback keyfile. After `openssl` decrypted the file it can be decompressed using `xz` and `tar`, or opened directly in a archiver which supports the format, such as Ark (KDE Archiver)
